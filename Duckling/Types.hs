@@ -37,6 +37,7 @@ import Prelude
 import TextShow (TextShow(..))
 import qualified Data.ByteString.Lazy as LB
 import qualified Data.Text.Encoding as Text
+import qualified Data.Text as T
 import qualified Text.Regex.Base as R
 import qualified Text.Regex.PCRE as PCRE
 import qualified TextShow as TS
@@ -46,6 +47,7 @@ import Duckling.CreditCardNumber.Types (CreditCardNumberData)
 import Duckling.Distance.Types (DistanceData)
 import Duckling.Duration.Types (DurationData)
 import Duckling.Email.Types (EmailData)
+import qualified Duckling.Email.Types as EType
 import Duckling.Locale
 import Duckling.Numeral.Types (NumeralData)
 import Duckling.Ordinal.Types (OrdinalData)
@@ -315,3 +317,23 @@ regex = Regex . R.makeRegexOpts compOpts execOpts
 
 dimension :: Typeable a => Dimension a -> PatternItem
 dimension value = Predicate $ isDimension value
+
+
+
+getRole :: Entity -> Maybe Text
+getRole entity = maybeRole
+  where node = enode entity
+        maybeRole = rule node
+
+
+getRole' :: Entity -> Maybe Text
+getRole' entity = rule . enode $ entity
+
+
+showEntity :: Entity -> String
+showEntity (Entity dim body value start end latent enode) = show "dim:" ++ (show dim) ++ "enode:" ++ (show enode)
+
+
+demoCreateToken = token
+  where mail = EType.EmailData {EType.value = T.pack "michael.savior@gmail.com"}
+        token = Token Email mail

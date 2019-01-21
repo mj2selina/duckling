@@ -18,7 +18,7 @@ module Duckling.Email.Types where
 import Control.DeepSeq
 import Data.Aeson
 import Data.Hashable
-import Data.Text (Text)
+import Data.Text (Text, pack, unpack)
 import GHC.Generics
 import Prelude
 
